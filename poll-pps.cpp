@@ -84,12 +84,17 @@ int main(int argc, char *argv[])
 		printf("%ld.%09ld\n", tp.tv_sec, tp.tv_nsec);
 
 		pst -> valid = 0;
+
 		pst -> clockTimeStampSec = tp.tv_sec;
 		pst -> clockTimeStampUSec = tp.tv_nsec / 1000;
-		pst -> receiveTimeStampSec = tp.tv_sec;
+
+		pst -> receiveTimeStampSec = tp.tv_sec + (tp.tv_nsec >= 500000000);
 		pst -> receiveTimeStampUSec = 0;
+
 		pst -> leap = pst -> mode = pst -> count = 0;
-		pst -> precision = 0;   /* 0 = precision of 1 sec., -1 = 0.5s */
+
+		pst -> precision = -1;   /* 0 = precision of 1 sec., -1 = 0.5s */
+
 		pst -> valid = 1;
 	}
 
